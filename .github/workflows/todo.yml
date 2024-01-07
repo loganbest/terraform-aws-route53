@@ -7,12 +7,6 @@ on:
       - main
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      importAll: #checkov:skip=CKV_GHA_7:We want to run manually to sync older todos to new repos
-        default: true
-        required: false
-        type: boolean
-        description: Enable, if you want to import all TODOs. Runs on checked out branch! Only use if you're sure what you are doing.
 
 permissions:
   issues: write
