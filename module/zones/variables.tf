@@ -3,49 +3,49 @@
 #######################################################################
 # these are needed since we are calling a submodule
 
-variable "namespace" {
-  type        = string
-  default     = null
-  description = "ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique"
-}
+#variable "namespace" {
+  #type        = string
+  #default     = null
+  #description = "ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique"
+#}
 
-variable "environment" {
-  type        = string
-  default     = null
-  description = "ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT'"
-}
+#variable "environment" {
+  #type        = string
+  #default     = null
+  #description = "ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT'"
+#}
 
-variable "stage" {
-  type        = string
-  default     = null
-  description = "ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release'"
-}
+#variable "stage" {
+  #type        = string
+  #default     = null
+  #description = "ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release'"
+#}
 
-variable "name" {
-  type        = string
-  default     = null
-  description = <<-EOT
-    ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.
-    This is the only ID element not also included as a `tag`.
-    The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input.
-    EOT
-}
+#variable "name" {
+  #type        = string
+  #default     = null
+  #description = <<-EOT
+    #ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.
+    #This is the only ID element not also included as a `tag`.
+    #The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input.
+    #EOT
+#}
 
-variable "tenant" {
-  type        = string
-  default     = null
-  description = "ID element _(Rarely used, not included by default)_. A customer identifier, indicating who this instance of a resource is for"
-}
+#variable "tenant" {
+  #type        = string
+  #default     = null
+  #description = "ID element _(Rarely used, not included by default)_. A customer identifier, indicating who this instance of a resource is for"
+#}
 
-variable "label_order" {
-  type        = list(string)
-  default     = null
-  description = <<-EOT
-    The order in which the labels (ID elements) appear in the `id`.
-    Defaults to ["namespace", "environment", "stage", "name", "attributes"].
-    You can omit any of the 6 labels ("tenant" is the 6th), but at least one must be present.
-    EOT
-}
+#variable "label_order" {
+  #type        = list(string)
+  #default     = null
+  #description = <<-EOT
+    #The order in which the labels (ID elements) appear in the `id`.
+    #Defaults to ["namespace", "environment", "stage", "name", "attributes"].
+    #You can omit any of the 6 labels ("tenant" is the 6th), but at least one must be present.
+    #EOT
+#}
 
 #######################################################################
 # Module variables
@@ -65,31 +65,42 @@ variable "zone_name" {
 
 variable "records" {
   description = "(Optional) A list of records to create in the Hosted Zone."
-  type        = any
-  default     = []
+  type        = list(object({
+    name            = string
+    type            = string
+    ttl             = optional(number) # required for non-alias records
+    records         = optional(list(string)) # required for non-alias records
+    zone_id         = string
+    set_identifier  = optional(string)
+    health_check_id = optional(string)
 
-  /** Full Example
-   * [
-   *   {
-   *     name            = string (Required)
-   *     type            = string (Required)
-   *     records         = list(string) (Required)
-   *     ttl             = number
-   *     zone_id         = string
-   *     allow_overwrite = bool
-   *     health_check_id = string
-   *     set_identifier  = string
-   *     alias           = object({
-   *       name                   = string
-   *       zone_id                = string
-   *       evaluate_target_health = bool
-   *     })
-   *     weight          = number
-   *     failover        = string
-   *   }
-   * ]
-   *
-   **/
+    alias = optional(object({
+      name                   = string
+      zone_id                = string
+      evaluate_target_health = bool
+    }))
+
+    failover_routing_policy = optional(object({
+      type = string
+    }))
+
+    geolocation_routing_policy = optional(object({
+      continent   = optional(string)
+      country     = optional(string)
+      subdivision = optional(string)
+    }))
+
+    latency_routing_policy = optional(object({
+      region = string
+    }))
+
+    weighted_routing_policy = optional(object({
+      weight = number
+    }))
+
+    multivalue_answer_routing_policy = optional(bool)
+  }))
+  default     = []
 }
 
 variable "allow_overwrite" {
@@ -113,12 +124,6 @@ variable "vpc_ids" {
   description = "(Optional) A list of IDs of VPCs to associate with a private hosted zone. Conflicts with the delegation_set_id."
   type        = list(string)
   default     = []
-}
-
-variable "vpc_name" {
-  description = "vpc_name (supplied by terragrunt)"
-  type        = string
-  default     = null
 }
 
 variable "tags" {
