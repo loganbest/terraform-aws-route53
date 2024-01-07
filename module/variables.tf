@@ -153,7 +153,7 @@ variable "terragrunt_tags" {
 variable "forward_rules" {
   description = <<EOF
     A complex object of map(object()) defining a Forward Rule and their share status.
-    'shared' defines if these resolver rules are shared with the entire Gemini AWS Org. Only valid inside Network Services Account (Default: False)
+    'shared' defines if these resolver rules are shared with the entire AWS Org.
     'domain_name' is the domain of the remote PHZ
     'name' is a friendly name for the PHZ, generally the VPC name is fine
     'rule_type' is almost always going to be FORWARD and will default to it
@@ -182,9 +182,15 @@ variable "forward_rules" {
 }
 
 variable "create_phz" {
-  description = "(Optional) Defines whether to create the PHZ or not. Useful in consul env's where resolver rule is preferred. (Default: False)"
+  description = "(Optional) Defines whether to create the PHZ or not. (Default: False)"
   type        = bool
   default     = false
+}
+
+variable "enable_dnssec" {
+  description = "(Optional) Defines whether to create the DNSSEC keys or not for public hosted zones. (Default: True)"
+  type        = bool
+  default     = true
 }
 
 variable "enable_resolver_rules" {
@@ -201,12 +207,6 @@ variable "enable_resolver_inbound_endpoint" {
 
 variable "enable_resolver_outbound_endpoint" {
   description = "Whether to include an Outbound Endpoint in the VPC"
-  type        = bool
-  default     = false
-}
-
-variable "is_netsvc_account" {
-  description = "Boolean to define whether this is in Network Services account or not (Default: False)"
   type        = bool
   default     = false
 }

@@ -64,8 +64,6 @@ module "resolver_rules" {
   count  = (var.enable_resolver_rules && !var.create_phz) ? 1 : 0
   source = "./resolver_rules"
 
-  is_netsvc_account = var.is_netsvc_account
-
   vpc_ids  = var.vpc_ids
   vpc_name = var.vpc_name
 

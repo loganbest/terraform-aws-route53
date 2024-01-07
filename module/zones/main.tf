@@ -1,7 +1,8 @@
 data "aws_region" "this" {}
+data "aws_caller_identity" "current" {}
 
 ###############################
-### R53 Private Hosted Zone ###
+### R53 Hosted Zone ###
 ###############################
 
 locals {
@@ -35,6 +36,58 @@ resource "aws_route53_zone" "phz" {
     var.tags,
     var.terragrunt_tags
   )
+}
+
+resource "aws_kms_key" "this" {
+  count = (length(local.zones) > 0 && var.create_phz && var.enable_dnssec && length(var.vpc_ids) == 0) ? 1 : 0
+
+  customer_master_key_spec = "ECC_NIST_P256"
+  deletion_window_in_days  = 7
+  key_usage                = "SIGN_VERIFY"
+  policy = jsonencode({
+    Statement = [
+      {
+        Action = [
+          "kms:DescribeKey",
+          "kms:GetPublicKey",
+          "kms:Sign",
+          "kms:Verify",
+        ],
+        Effect = "Allow"
+        Principal = {
+          Service = "dnssec-route53.amazonaws.com"
+        }
+        Resource = "*"
+        Sid      = "Allow Route 53 DNSSEC Service",
+      },
+      {
+        Action = "kms:*"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+        Resource = "*"
+        Sid      = "Enable IAM User Permissions"
+      },
+    ]
+    Version = "2012-10-17"
+  })
+}
+
+resource "aws_route53_key_signing_key" "this" {
+  count = (length(local.zones) > 0 && var.create_phz && var.enable_dnssec && length(var.vpc_ids) == 0) ? 1 : 0
+
+  hosted_zone_id             = aws_route53_zone.phz[var.zone_name].id
+  key_management_service_arn = aws_kms_key.this[0].arn
+  name                       = "${var.zone_name}-dnssec"
+}
+
+resource "aws_route53_hosted_zone_dnssec" "this" {
+  count = (length(local.zones) > 0 && var.create_phz && var.enable_dnssec && length(var.vpc_ids) == 0) ? 1 : 0
+
+  hosted_zone_id = aws_route53_key_signing_key.this[0].hosted_zone_id
+
+  depends_on = [aws_route53_key_signing_key.this]
 }
 
 ###################

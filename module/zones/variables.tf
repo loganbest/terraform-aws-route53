@@ -139,8 +139,8 @@ variable "create_phz" {
   default     = false
 }
 
-variable "is_netsvc_account" {
-  description = "Boolean to define whether this is in Network Services account or not (Default: False)"
+variable "enable_dnssec" {
+  description = "(Optional) Defines whether to create the DNSSEC keys or not for public hosted zones. (Default: True)"
   type        = bool
-  default     = false
+  default     = true
 }
