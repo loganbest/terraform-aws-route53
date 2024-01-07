@@ -38,12 +38,12 @@ jobs:
       - uses: actions/checkout@v3
         name: Checkout source code
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/github/terraform
-          role-session-name: actions-${{ github.event.repository.name }}-session
-          aws-region: ${{ env.AWS_REGION }}
+      #- name: Configure AWS Credentials
+        #uses: aws-actions/configure-aws-credentials@v3
+        #with:
+          #role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/github/terraform
+          #role-session-name: actions-${{ github.event.repository.name }}-session
+          #aws-region: ${{ env.AWS_REGION }}
 
       - uses: actions/cache@v3
         name: Cache plugin dir
