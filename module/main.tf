@@ -14,6 +14,7 @@ module "zones" {
   vpc_name = var.vpc_name
 
   create_phz      = var.create_phz
+  enable_dnssec   = var.enable_dnssec
   zone_id         = var.zone_id
   zone_name       = var.zone_name
   records         = var.records
