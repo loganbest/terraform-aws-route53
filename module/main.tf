@@ -58,25 +58,24 @@ module "endpoints" {
 
 ##########################
 ### R53 Resolver Rules ###
-### (Non-Consul Envs)  ###
 ##########################
 
-module "resolver_rules" {
-  count  = (var.enable_resolver_rules && !var.create_phz) ? 1 : 0
-  source = "./resolver_rules"
+#module "resolver_rules" {
+  #count  = (var.enable_resolver_rules && !var.create_phz) ? 1 : 0
+  #source = "./resolver_rules"
 
-  vpc_ids  = var.vpc_ids
-  vpc_name = var.vpc_name
+  #vpc_ids  = var.vpc_ids
+  #vpc_name = var.vpc_name
 
-  forward_rules = var.forward_rules
+  #forward_rules = var.forward_rules
 
-  label_order = var.label_order
-  namespace   = var.namespace
-  environment = var.environment
-  stage       = var.stage
-  tenant      = var.tenant
-  tags = merge(
-    var.tags,
-    var.terragrunt_tags
-  )
-}
+  #label_order = var.label_order
+  #namespace   = var.namespace
+  #environment = var.environment
+  #stage       = var.stage
+  #tenant      = var.tenant
+  #tags = merge(
+    #var.tags,
+    #var.terragrunt_tags
+  #)
+#}

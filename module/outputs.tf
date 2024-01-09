@@ -6,6 +6,6 @@ output "endpoints" {
   value = module.endpoints
 }
 
-output "resolver_rules" {
-  value = module.resolver_rules
-}
+#output "resolver_rules" {
+  #value = module.resolver_rules
+#}
