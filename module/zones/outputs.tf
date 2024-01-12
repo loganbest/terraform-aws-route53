@@ -1,16 +1,16 @@
 output "zone" {
   description = "PHZ Object"
-  value = {
+  value = (length(aws_route53_zone.phz) > 0) ? {
     name       = aws_route53_zone.phz[var.zone_name].name
     zone_id    = aws_route53_zone.phz[var.zone_name].zone_id
     arn        = aws_route53_zone.phz[var.zone_name].arn
     vpc        = aws_route53_zone.phz[var.zone_name].vpc
-  }
+  } : null
 }
 
 output "vpc_id" {
   description = "vpc id acting as primary associated vpc for private hosted zone"
-  value       = var.vpc_ids
+  value       = try(var.vpc_ids, null)
 }
 
 output "route53_record_name" {

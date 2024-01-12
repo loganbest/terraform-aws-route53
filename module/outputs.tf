@@ -7,5 +7,5 @@ output "endpoints" {
 }
 
 #output "resolver_rules" {
-  #value = module.resolver_rules
+#value = module.resolver_rules
 #}

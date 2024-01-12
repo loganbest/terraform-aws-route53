@@ -168,7 +168,7 @@ resource "aws_route53_record" "record" {
   ttl = each.value.ttl == null && each.value.alias.name == null ? var.default_ttl : each.value.ttl
 
   # split TXT records at 255 chars to support >255 char records
-  records = can(var.records[each.value.idx].records) ? [for r in var.records[each.value.idx].records :
+  records = (can(var.records[each.value.idx].records) && var.records[each.value.idx].records != null) ? [for r in var.records[each.value.idx].records :
     each.value.type == "TXT" && length(regexall("(\\\"\\\")", r)) == 0 ?
     join("\"\"", compact(split("{SPLITHERE}", replace(r, "/(.{255})/", "$1{SPLITHERE}")))) : r
   ] : null

@@ -22,13 +22,13 @@ variable "stage" {
 }
 
 #variable "name" {
-  #type        = string
-  #default     = null
-  #description = <<-EOT
-    #ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.
-    #This is the only ID element not also included as a `tag`.
-    #The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input.
-    #EOT
+#type        = string
+#default     = null
+#description = <<-EOT
+#ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.
+#This is the only ID element not also included as a `tag`.
+#The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input.
+#EOT
 #}
 
 variable "tenant" {
@@ -68,7 +68,7 @@ variable "records" {
   type = list(object({
     name            = string
     type            = string
-    ttl             = optional(number) # required for non-alias records
+    ttl             = optional(number)       # required for non-alias records
     records         = optional(list(string)) # required for non-alias records
     zone_id         = string
     set_identifier  = optional(string)
@@ -100,7 +100,7 @@ variable "records" {
 
     multivalue_answer_routing_policy = optional(bool)
   }))
-  default     = []
+  default = []
 }
 
 variable "allow_overwrite" {
