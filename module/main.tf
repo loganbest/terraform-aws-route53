@@ -7,11 +7,11 @@ locals {
 }
 
 module "zones" {
-  count  = (var.create_phz || length(local.zones) > 0) ? 1 : 0
+  count  = (var.create_phz || length(local.zones) > 0 || var.zone_id != null) ? 1 : 0
   source = "./zones"
 
   vpc_ids  = var.vpc_ids
-  vpc_name = var.vpc_name
+  #vpc_name = var.vpc_name
 
   create_phz      = var.create_phz
   enable_dnssec   = var.enable_dnssec
