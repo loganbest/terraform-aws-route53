@@ -70,7 +70,7 @@ variable "records" {
     type            = string
     ttl             = optional(number)       # required for non-alias records
     records         = optional(list(string)) # required for non-alias records
-    zone_id         = string
+    zone_id         = optional(string)
     set_identifier  = optional(string)
     health_check_id = optional(string)
 
