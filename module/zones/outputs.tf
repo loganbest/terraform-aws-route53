@@ -1,10 +1,10 @@
 output "zone" {
   description = "PHZ Object"
   value = (length(aws_route53_zone.phz) > 0) ? {
-    name       = aws_route53_zone.phz[var.zone_name].name
-    zone_id    = aws_route53_zone.phz[var.zone_name].zone_id
-    arn        = aws_route53_zone.phz[var.zone_name].arn
-    vpc        = aws_route53_zone.phz[var.zone_name].vpc
+    name    = aws_route53_zone.phz[var.zone_name].name
+    zone_id = aws_route53_zone.phz[var.zone_name].zone_id
+    arn     = aws_route53_zone.phz[var.zone_name].arn
+    vpc     = aws_route53_zone.phz[var.zone_name].vpc
   } : null
 }
 
