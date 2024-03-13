@@ -22,11 +22,11 @@ module "zones" {
   default_ttl     = var.default_ttl
   force_destroy   = var.force_destroy
 
-  label_order = var.label_order
-  namespace   = var.namespace
-  environment = var.environment
-  stage       = var.stage
-  tenant      = var.tenant
+  #label_order = var.label_order
+  #namespace   = var.namespace
+  #environment = var.environment
+  #stage       = var.stage
+  #tenant      = var.tenant
   tags = merge(
     var.tags,
     var.terragrunt_tags

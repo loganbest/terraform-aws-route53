@@ -42,7 +42,11 @@ repos:
   hooks:
   - id: checkov
     args: ["--quiet", "--skip-check", "CKV_TF_1"]
+    additional_dependencies:
+      - "cyclonedx-python-lib==5.2.0"
   - id: checkov_secrets
+    additional_dependencies:
+      - "cyclonedx-python-lib==5.2.0"
 - repo: https://github.com/antonbabenko/pre-commit-terraform
   rev: v1.83.5 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
   hooks:
