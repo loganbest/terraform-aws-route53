@@ -22,13 +22,13 @@ variable "stage" {
 }
 
 #variable "name" {
-  #type        = string
-  #default     = null
-  #description = <<-EOT
-    #ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.
-    #This is the only ID element not also included as a `tag`.
-    #The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input.
-    #EOT
+#type        = string
+#default     = null
+#description = <<-EOT
+#ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.
+#This is the only ID element not also included as a `tag`.
+#The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input.
+#EOT
 #}
 
 variable "tenant" {
@@ -91,4 +91,10 @@ variable "enable_resolver_outbound_endpoint" {
   description = "Whether to include an Outbound Endpoint in the VPC"
   type        = bool
   default     = false
+}
+
+variable "endpoint_allow_cidrs" {
+  description = "(Optional) IP CIDR's to allow to reach the Resolver Endpoints"
+  type        = list(string)
+  default     = ["10.0.0.0/8"]
 }
