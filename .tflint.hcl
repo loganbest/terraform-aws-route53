@@ -1,7 +1,3 @@
-#config {
-  #call_module_type = "local"
-#}
-
 plugin "aws" {
   enabled = true
   source  = "github.com/terraform-linters/tflint-ruleset-aws"
