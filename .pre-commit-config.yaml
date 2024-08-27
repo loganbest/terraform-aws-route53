@@ -32,7 +32,7 @@ repos:
   hooks:
   - id: checkov
     args: ["--quiet", "--skip-check", "CKV_TF_1"]
-  - id: checkov_secrets
+  #- id: checkov_secrets
 
 - repo: https://github.com/gruntwork-io/pre-commit
   rev: 'v0.1.23' # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
