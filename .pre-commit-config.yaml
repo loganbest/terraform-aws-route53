@@ -47,12 +47,6 @@ repos:
 - repo: https://github.com/antonbabenko/pre-commit-terraform
   rev: v1.92.2 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
   hooks:
-  #- id: terraform_fmt
-  #- id: terraform_tflint
-    #args:
-    #- --args=--recursive
-    #- --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
-  #- id: terraform_validate
   - id: terraform_docs
     args:
     - --hook-config=--path-to-file=README.md
