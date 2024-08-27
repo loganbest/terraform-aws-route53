@@ -1,7 +1,5 @@
 data "aws_organizations_organization" "this" {}
 
-data "aws_region" "this" {}
-
 ######################################################################
 ###                        R53 Resolver Rules                      ###
 ### (Static Regional Rules applied from the Authoritative Account) ###
@@ -140,13 +138,13 @@ resource "aws_ram_resource_share" "this" {
 resource "aws_ram_resource_association" "this" {
   for_each = (var.is_authoritative_account && var.forward_rules.shared) ? merge(aws_route53_resolver_rule.rr_fwd_inbound, aws_route53_resolver_rule.rr_fwd_outbound) : {}
 
-  resource_share_arn = aws_ram_resource_share.this.0.arn
+  resource_share_arn = aws_ram_resource_share.this[0].arn
   resource_arn       = each.value.arn
 }
 
 resource "aws_ram_principal_association" "this" {
   count = (var.is_authoritative_account && var.forward_rules.shared) ? 1 : 0
 
-  resource_share_arn = aws_ram_resource_share.this.0.arn
+  resource_share_arn = aws_ram_resource_share.this[0].arn
   principal          = data.aws_organizations_organization.this.arn
 }
