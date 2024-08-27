@@ -38,4 +38,4 @@ jobs:
           output-method: inject
           git-push: "true"
           recursive: "true"
-          recursive-path: "module"
+          recursive-path: "modules"
