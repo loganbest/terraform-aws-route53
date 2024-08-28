@@ -22,18 +22,6 @@ variable "terragrunt_tags" {
   default     = {}
 }
 
-variable "enable_resolver_inbound_endpoint" {
-  description = "Whether to include an Inbound Endpoint in the VPC"
-  type        = bool
-  default     = false
-}
-
-variable "enable_resolver_outbound_endpoint" {
-  description = "Whether to include an Outbound Endpoint in the VPC"
-  type        = bool
-  default     = false
-}
-
 variable "endpoint_allow_cidrs" {
   description = "(Optional) IP CIDR's to allow to reach the Resolver Endpoints"
   type        = list(string)

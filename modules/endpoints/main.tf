@@ -59,8 +59,6 @@ module "dns_security_group" {
 ##############################
 
 resource "aws_route53_resolver_endpoint" "rr_inbound" {
-  count = (var.enable_resolver_inbound_endpoint) ? 1 : 0
-
   name      = "${var.vpc_name}-inbound"
   direction = "INBOUND"
 
@@ -80,8 +78,6 @@ resource "aws_route53_resolver_endpoint" "rr_inbound" {
 }
 
 resource "aws_route53_resolver_endpoint" "rr_outbound" {
-  count = (var.enable_resolver_outbound_endpoint) ? 1 : 0
-
   name      = "${var.vpc_name}-outbound"
   direction = "OUTBOUND"
 
