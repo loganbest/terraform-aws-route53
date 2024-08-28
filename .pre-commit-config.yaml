@@ -48,7 +48,3 @@ repos:
   rev: v1.92.2 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
   hooks:
   - id: terraform_docs
-    args:
-    - --hook-config=--path-to-file=README.md
-    - --hook-config=--add-to-existing-file=true
-    - --hook-config=--create-file-if-not-exist=true
